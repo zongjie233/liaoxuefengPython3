@@ -47,7 +47,7 @@ next(a)
 next(a)
 next(a)
 
-#用for循环调用generator时，拿不到return语句中的返回值，如果想要拿回返回值必须不过StopIteration
+#用for循环调用generator时，拿不到return语句中的返回值，如果想要拿回返回值必须捕获StopIteration
 g = fib_generator(6)
 while True:
     try:
@@ -58,12 +58,21 @@ while True:
         break
 
 #杨辉三角形
-def triangles(max):
-    n = 0
-    l1 = [1]
-    while n < max:
-        yield l1
+#使用错位相加的方法
+def triangles():
+    l = [1]
+    s =[]
+    while True:
+        yield l
+        l = [1] + s + [1]
+        for i in range(len(l)-1):
+            s.append(l[i] + l[i+1])
 
+b = triangles()
+print(next(b))
+print(next(b))
+print(next(b))
+print(next(b))
 
 
 
