@@ -19,7 +19,8 @@ print(isinstance((x for x in range(10)), Iterator))
 #iter()函数可以把list dict str 等可迭代对象编程迭代器
 
 
-
+str1 = "123.456"
+print(str1.split(".",1))
 
 
 
