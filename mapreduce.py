@@ -68,14 +68,58 @@ print("--测试结果--")
 print('3 * 5 * 7 * 9 =', prod([3, 5, 7, 9]))
 
 #ex:利用map和reduce编写一个str2float函数，把字符串'123.456'转换成浮点数123.456：
-def str2float(s):
-    d = s.find(".")
-    s.replace(".","")
-    for i in int(s):
-        if i < d:
-            pass
+# 标答
+# CHAR_TO_FLOAT = {
+#     '0': 0,
+#     '1': 1,
+#     '2': 2,
+#     '3': 3,
+#     '4': 4,
+#     '5': 5,
+#     '6': 6,
+#     '7': 7,
+#     '8': 8,
+#     '9': 9,
+#     '.': -1
+# }
+# # def str2float(s):
+# #     nums = map(lambda ch: CHAR_TO_FLOAT[ch], s)
+# #     point = 0
+# #     def to_float(f, n):
+# #         nonlocal point
+# #         if n == -1:
+# #             point = 1
+# #             return f
+# #         if point == 0:
+# #             return f * 10 + n
+# #         else:
+# #             point = point * 10
+# #             return f + n / point
+# #     return reduce(to_float, nums, 0.0)
 
+# 网答
+def str2float(s):
+#去除引号
+    def k(s):
+        digits = {'.': '.', '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+        return digits[s]
+    s = list(s)
+    result = list(map(k, s))
+#确定小数点的位置
+    n = result.index('.')
+#确定小数点前的整数
+    def add1(x, y):
+        return x * 10 + y
+    float_int = reduce(add1, result[:n])
+    m = n +1
+#确定小数点后的值
+    def add2(q, p):
+        return q * 10 + p
+    float_flo = 0.1 ** len(result[m:]) * reduce(add2, result[m:])
+    return (float_int + float_flo)
 print('str2float(\'123.456\') =', str2float('123.456'))
+
+
 
 
 
