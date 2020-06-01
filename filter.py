@@ -39,6 +39,8 @@ def _odd_iter():
         n += 2
         yield n
 
+
+
 #然后定义一个筛选函数
 def _not_divisible(n):
     return lambda x : x % n > 0
@@ -57,6 +59,11 @@ for n in primes():
         print(n)
     else:
         break
+
+
+
+
+
 
 #回数是指从左向右读和从右向左读都是一样的数.用filter()筛选出回数：
 def is_palindrome(n):
