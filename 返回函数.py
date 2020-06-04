@@ -69,6 +69,7 @@ A = createCounter()
 B = createCounter()
 print(A())
 print(A())
+print(A)
 
 
 
