@@ -24,6 +24,7 @@ class Student(object):
     def __init__(self, name):
         self.name = name
         Student.count += 1 #调用类下的属性
+        print('运行了')
 
 
 hs = Student('hs')
