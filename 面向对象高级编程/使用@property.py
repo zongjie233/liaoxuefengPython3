@@ -22,7 +22,8 @@ class Student():
     def score(self):
         return self.score_
 
-    @score.setter
+#@score.setter 由@property创建
+    @score.setter#负责把一个setter方法变成属性赋值
     def score(self, score):
         if not isinstance(score, int):
             raise ValueError('score must be an integer!')
@@ -34,3 +35,38 @@ s = Student()
 s.score = 30
 print(s.score)
 # s.score = 9000 #报错
+
+class Screen():
+
+    @property
+    def width(self):
+        return self._width
+    @width.setter
+    def width(self,width):
+        self._width = width
+
+    @property
+    def height(self):
+        return self._height
+    @height.setter
+    def height(self,height):
+        self._height = height
+
+    @property
+    def resolution(self):
+        return self._width * self._height
+
+A = Screen()
+A.height = 1080
+A.width = 1920
+print(A.resolution)
+A.resolution = 102020 #不可更改的属性，如果设置值会报错
+
+
+
+
+
+
+
+
+
