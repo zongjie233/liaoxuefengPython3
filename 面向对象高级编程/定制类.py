@@ -118,7 +118,11 @@ class Chain():
 
     __repr__ = __str__
 
-print(Chain().users('hs').repos)
+print(Chain())
+print(Chain().users)#调用__getattr__(self,'users'),从而 产生新的实例Chain('/users')
+print(Chain().users('hs'))#对实例直接调用，并重建实例，覆盖Chain('/users')
+print(Chain().users('hs').repos)#再次查找无果，调用__getattr__(self,'repos'),返回新的实例Chain('/users/hs/repos')并覆盖
+#print调用__str__方法，故返回_path
 '''
 第一步，初始化一个实例
 urls = Chain() 
