@@ -42,9 +42,51 @@ JSON类型	      Python类型
 []	            list
 "string"	    str
 1234.56	    int或float
-true/false	True/False
+true/false	True/False`
 null	        None
 '''
 import json
 d = dict(name = 'Bob', age = 20)
-print(json.dumps(d))
+print(json.dumps(d)) #dumps()方法返回一个str。dump()方法可以直接把json写入一个file-like Object
+
+#json反序列化为python对象
+json_str = '{"name": "Bob", "age": 20}'
+print(json.loads(json_str))
+
+'''
+JSON进阶
+Python的dict对象可以直接序列化为JSON的{}，不过，很多时候，我们更喜欢用class表示对象，比如定义Student类，然后序列化：
+'''
+class Student():
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
+
+
+
+# 改变可选参数，定制json序列化。为Student写一个转换函数，再将函数传进去即可
+def student2dict(s):
+    return {
+        'name': s.name,
+        'age' : s.age,
+        'score' : s.score
+        }
+
+
+a = Student('hs', 20, 100)
+print(json.dumps(a, default=student2dict)) #程序运行报错，因为Student对象不是一个可序列化为json的对象
+
+#上述方法不通用，如果换为其他实例便不会起作用。可以进行如下操作
+# print(json.dumps(s, default=lambda obj: obj.__dict__)) #将任意class的实例变为dict
+
+
+# JSON反序列化为一个Student对象实例，loads()方法首先转换出一个dict对象，然后，我们传入的object_hook函数负责把dict转换为Student实例：
+def dict2student(d):
+    return Student(d['name'], d['age'], d['score'])
+
+# ex对中文进行JSON序列化时，json.dumps()提供了一个ensure_ascii参数，观察该参数对结果的影响：
+obj = dict(name='小明', age=20)
+# 如果ensure_ascii为True(默认值)，则输出保证将所有输入的非ASCII字符转义。如果确保ensure_ascii为False，这些字符将原样输出。
+print(json.dumps(obj, ensure_ascii=False))
+
