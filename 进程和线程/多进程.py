@@ -32,6 +32,18 @@ import os
 from multiprocessing import Pool
 import os, time, random
 
+'''
+apply是阻塞式的。
+
+首先主进程开始运行，碰到子进程，操作系统切换到子进程，等待子进程运行结束后，在切换到另外一个子进程，直到所有子进程运行完毕。然后在切换到主进程，运行剩余的部分。
+
+apply_async是异步非阻塞式的。
+
+首先主进程开始运行，碰到子进程后，主进程说：让我先运行个够，等到操作系统进行进程切换的时候，在交给子进程运行。以为我们的程序太短，然而还没等到操作系统进行进程切换，主进程就运行完毕了。
+
+想要子进程执行，就告诉主进程：你等着所有子进程执行完毕后，在运行剩余部分。
+
+'''
 # def long_time_task(name):
 #     print(f'Run task {name} ({os.getpid()})')
 #     start = time.time()
@@ -43,7 +55,7 @@ import os, time, random
 #     print(f'Parent process {os.getpid()}')
 #     p = Pool(15)
 #     for i in range(15):
-#         p.apply_async(long_time_task, args=(i,))
+#         p.apply_async(long_time_task, args=(i,)) #apply_async为异步非阻塞式的
 #     print('Waiting for all subprocesses done...')
 # #对Pool对象调用join()方法会等待所有子进程执行完毕，调用join()之前必须先调用close()，调用close()之后就不能继续添加新的Process了。
 #     p.close()
