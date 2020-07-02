@@ -90,3 +90,46 @@ def loop():
 for i in range(multiprocessing.cpu_count()):
     t = threading.Thread(target=loop)
     t.start()
+
+#计算子线程执行的时间
+import threading
+import time
+
+def run(n):
+    print('task', n, threading.current_thread()) #输出当前的线程
+    time.sleep(1)
+
+#
+# start_time = time.time()
+
+import threading
+import time
+
+#由于主线程比子线程快很多，当主线程执行active_count()时，其他子线程都还没执行完毕，因此利用主线程统计的活跃的线程数
+# num = sub_num(子线程数量)+1(主线程本身)
+def run(n):
+    print("task", n)
+    time.sleep(1)       #此时子线程停1s
+
+for i in range(3):
+    t = threading.Thread(target=run, args=("t-%s" % i,))
+    t.start()
+
+time.sleep(0.5)     #主线程停0.5秒
+print(threading.active_count()) #输出当前活跃的线程数
+
+#由于主线程比子线程慢很多，当主线程执行active_count()时，其他子线程都已经执行完毕，因此利用主线程统计的活跃的线程数num = 1(主线程本身)
+def run(n):
+    print("task", n)
+    time.sleep(0.5)       #此时子线程停0.5s
+
+
+for i in range(3):
+    t = threading.Thread(target=run, args=("t-%s" % i,))
+    t.start()
+
+time.sleep(1)     #主线程停1秒
+print(threading.active_count()) #输出活跃的线程
+
+
+
